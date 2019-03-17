@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.school.mapper.SchoolMapper" >
+  <select id="getSchool4CompanyById" parameterType="java.lang.String" resultType="cn.school.pojo.Company">
+   SELECT c.* FROM
+    company c
+   LEFT OUTER JOIN
+    company_school sc
+   ON c.cid=sc.cid
+   LEFT OUTER JOIN
+    school_recruit sr
+   ON sr.sid = sc.sid
+   WHERE
+    sr.sid= #{sid}
+  </select>
+
+  <select id="getJobByCid" parameterType="java.lang.String" resultType="cn.school.pojo.Job" >
+    SELECT j.* FROM
+      job j
+    LEFT OUTER JOIN
+      company_job cj
+    ON j.jid=cj.job_id
+    LEFT OUTER JOIN
+      company c
+    ON cj.company_id = c.cid
+    WHERE
+      c.cid=#{cid}
+  </select>
+
+  <select id="getCompanyByPost" parameterType="java.lang.String" resultType="cn.school.pojo.Company">
+    SELECT c.* FROM
+      company c
+    LEFT OUTER JOIN
+      company_job cj
+    ON c.cid=cj.company_id
+    LEFT OUTER JOIN
+      job j
+    ON cj.job_id = j.jid
+    WHERE
+      j.post LIKE #{post}
+  </select>
+
+   <select id="getCompanyByMajor" parameterType="java.lang.String" resultType="cn.school.pojo.Company">
+    SELECT c.* FROM
+      company c
+    LEFT OUTER JOIN
+      company_major cm
+    ON c.cid=cm.cid
+    LEFT OUTER JOIN
+      major m
+    ON cm.mid=m.mid
+    WHERE
+      m.nane LIKE #{majorName}
+   </select>
+</mapper>

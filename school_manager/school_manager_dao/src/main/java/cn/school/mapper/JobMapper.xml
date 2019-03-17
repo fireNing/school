@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.school.mapper.JobMapper" >
+  <resultMap id="BaseResultMap" type="cn.school.pojo.Job" >
+    <id column="jid" property="jid" jdbcType="VARCHAR" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="jdesc" property="jdesc" jdbcType="VARCHAR" />
+    <result column="lowpay" property="lowpay" jdbcType="DOUBLE" />
+    <result column="hightpay" property="hightpay" jdbcType="DOUBLE" />
+    <result column="demand" property="demand" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    jid, post, jdesc, lowpay, hightpay, demand
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.school.pojo.JobExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from job
+    where jid = #{jid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from job
+    where jid = #{jid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.school.pojo.JobExample" >
+    delete from job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.school.pojo.Job" >
+    insert into job (jid, post, jdesc, 
+      lowpay, hightpay, demand
+      )
+    values (#{jid,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{jdesc,jdbcType=VARCHAR}, 
+      #{lowpay,jdbcType=DOUBLE}, #{hightpay,jdbcType=DOUBLE}, #{demand,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.school.pojo.Job" >
+    insert into job
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jid != null" >
+        jid,
+      </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="jdesc != null" >
+        jdesc,
+      </if>
+      <if test="lowpay != null" >
+        lowpay,
+      </if>
+      <if test="hightpay != null" >
+        hightpay,
+      </if>
+      <if test="demand != null" >
+        demand,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jid != null" >
+        #{jid,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="jdesc != null" >
+        #{jdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="lowpay != null" >
+        #{lowpay,jdbcType=DOUBLE},
+      </if>
+      <if test="hightpay != null" >
+        #{hightpay,jdbcType=DOUBLE},
+      </if>
+      <if test="demand != null" >
+        #{demand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.school.pojo.JobExample" resultType="java.lang.Integer" >
+    select count(*) from job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update job
+    <set >
+      <if test="record.jid != null" >
+        jid = #{record.jid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdesc != null" >
+        jdesc = #{record.jdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lowpay != null" >
+        lowpay = #{record.lowpay,jdbcType=DOUBLE},
+      </if>
+      <if test="record.hightpay != null" >
+        hightpay = #{record.hightpay,jdbcType=DOUBLE},
+      </if>
+      <if test="record.demand != null" >
+        demand = #{record.demand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update job
+    set jid = #{record.jid,jdbcType=VARCHAR},
+      post = #{record.post,jdbcType=VARCHAR},
+      jdesc = #{record.jdesc,jdbcType=VARCHAR},
+      lowpay = #{record.lowpay,jdbcType=DOUBLE},
+      hightpay = #{record.hightpay,jdbcType=DOUBLE},
+      demand = #{record.demand,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.school.pojo.Job" >
+    update job
+    <set >
+      <if test="post != null" >
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="jdesc != null" >
+        jdesc = #{jdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="lowpay != null" >
+        lowpay = #{lowpay,jdbcType=DOUBLE},
+      </if>
+      <if test="hightpay != null" >
+        hightpay = #{hightpay,jdbcType=DOUBLE},
+      </if>
+      <if test="demand != null" >
+        demand = #{demand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jid = #{jid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.school.pojo.Job" >
+    update job
+    set post = #{post,jdbcType=VARCHAR},
+      jdesc = #{jdesc,jdbcType=VARCHAR},
+      lowpay = #{lowpay,jdbcType=DOUBLE},
+      hightpay = #{hightpay,jdbcType=DOUBLE},
+      demand = #{demand,jdbcType=VARCHAR}
+    where jid = #{jid,jdbcType=VARCHAR}
+  </update>
+</mapper>
